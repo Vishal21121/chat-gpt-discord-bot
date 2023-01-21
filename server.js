@@ -27,7 +27,7 @@ client.on('ready',()=>{
 
 client.on("messageCreate",async(message)=>{
     let data;
-    if (message.content.includes("/chat-gpt")){
+    if (message.content.startsWith("/chat-gpt")){
         data = message.content.slice(10,message.content.length)
         const response = await openai.createCompletion({
             model: "text-davinci-003",
