@@ -26,6 +26,9 @@ client.on('ready',()=>{
 })
 
 let userId = {
+    "793474999277191218":"Arsh2001deep",
+    "953657718852448256":"vishal21121",
+    "1053333431410511872":"Sohini3018",
 }
 
 const getCount = async(author)=>{
@@ -69,9 +72,11 @@ cron.schedule("* 21 * * *", async() => {
         if (preVal.total_count==0){
             let user = await client.users.fetch(key)
             user.send("Bhai kya kar raha hai tu kuch commit kar")
+            console.log(userId)
         }else{
             let user = await client.users.fetch(key)
             user.send("Bhai sahi jaa raha hai")
+            console.log(userId)
         }
     }
 });   
