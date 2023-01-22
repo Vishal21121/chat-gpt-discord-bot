@@ -66,7 +66,8 @@ client.on("messageCreate",async(message)=>{
     }
 })
 
-cron.schedule("* 21 * * *", async() => {
+cron.schedule("* 22 * * *", async() => {
+    console.log("hello")
     for(let key in userId){
         let preVal = await getCount(userId[key])
         if (preVal.total_count==0){
