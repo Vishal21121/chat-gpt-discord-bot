@@ -1,5 +1,5 @@
 require('dotenv').config()
-
+const cron = require('node-cron');
 const { Client,  IntentsBitField } = require('discord.js');
 const { Configuration, OpenAIApi } = require("openai");
 
