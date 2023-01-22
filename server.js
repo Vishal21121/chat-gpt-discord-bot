@@ -63,12 +63,15 @@ client.on("messageCreate",async(message)=>{
     }
 })
 
-cron.schedule("7 21 * * *", async() => {
+cron.schedule("12 21 * * *", async() => {
     for(let key in userId){
         let preVal = await getCount(userId[key])
-        if (preVal.total_count){
+        if (preVal.total_count==0){
             let user = await client.users.fetch(key)
-            user.send("You have done zero contribution today in github")
+            user.send("Bhai kya kar raha hai tu kuch commit kar")
+        }else{
+            let user = await client.users.fetch(key)
+            user.send("Bhai sahi jaa raha hai")
         }
     }
 });   
