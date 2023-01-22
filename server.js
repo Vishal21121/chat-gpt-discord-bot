@@ -57,6 +57,7 @@ client.on("messageCreate",async(message)=>{
         let data = "/chat-register"
         let githubId = message.content.slice(data.length,message.content.length).trim()
         userId[message.author.id] = githubId
+        message.author.send("User registered")
     }
 })
 
