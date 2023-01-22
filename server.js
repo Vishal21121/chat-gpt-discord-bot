@@ -57,13 +57,13 @@ client.on("messageCreate",async(message)=>{
         let data = "/chat-register"
         let githubId = message.content.slice(data.length,message.content.length).trim()
         userId[message.author.id] = githubId
-        message.author.send(`User registered with user id: ${message.author.id}`)
+        message.author.send(`User registered with user id: ${message.author.id} and username ${githubId} `)
         console.log(message.author.id)
         console.log(userId)
     }
 })
 
-cron.schedule("12 21 * * *", async() => {
+cron.schedule("* 21 * * *", async() => {
     for(let key in userId){
         let preVal = await getCount(userId[key])
         if (preVal.total_count==0){
