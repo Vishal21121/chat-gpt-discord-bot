@@ -41,7 +41,7 @@ const getCount = async(author)=>{
     return data
 }
 
-cron.schedule("* * * * *", async() => {
+cron.schedule("0 18 * * *", async() => {
     for(let key in userId){
         let preVal = await getCount(userId[key])
         if (preVal.total_count==0){
