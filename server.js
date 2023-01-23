@@ -1,7 +1,9 @@
-require('dotenv').config()
-const cron = require('node-cron');
-const { Client,  IntentsBitField } = require('discord.js');
-const { Configuration, OpenAIApi } = require("openai");
+import dotenv from "dotenv"
+dotenv.config()
+import cron from 'node-cron';
+import { Client,  IntentsBitField } from 'discord.js';
+import { Configuration, OpenAIApi } from "openai";
+import fetch from "node-fetch"
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -26,9 +28,6 @@ client.on('ready',()=>{
 })
 
 let userId = {
-    "793474999277191218":"Arsh2001deep",
-    "953657718852448256":"vishal21121",
-    "1053333431410511872":"Sohini3018",
 }
 
 const getCount = async(author)=>{
@@ -38,8 +37,22 @@ const getCount = async(author)=>{
         method:'GET'
     })
     let data = await response.json()
+    // console.log(actualTime)
     return data
 }
+
+cron.schedule("* * * * *", async() => {
+    for(let key in userId){
+        let preVal = await getCount(userId[key])
+        if (preVal.total_count==0){
+            let user = await client.users.fetch(key)
+            user.send("Bhai kya kar raha hai tu kuch commit kar")
+        }else{
+            let user = await client.users.fetch(key)
+            user.send("Bhai sahi jaa raha hai")
+        }
+    }
+});
 
 client.on("messageCreate",async(message)=>{
     let data;
@@ -61,23 +74,7 @@ client.on("messageCreate",async(message)=>{
         let githubId = message.content.slice(data.length,message.content.length).trim()
         userId[message.author.id] = githubId
         message.author.send(`User registered with user id: ${message.author.id} and username ${githubId} `)
-        console.log(message.author.id)
-        console.log(userId)
     }
 })
 
-cron.schedule("* 22 * * *", async() => {
-    console.log("hello")
-    for(let key in userId){
-        let preVal = await getCount(userId[key])
-        if (preVal.total_count==0){
-            let user = await client.users.fetch(key)
-            user.send("Bhai kya kar raha hai tu kuch commit kar")
-            console.log(userId)
-        }else{
-            let user = await client.users.fetch(key)
-            user.send("Bhai sahi jaa raha hai")
-            console.log(userId)
-        }
-    }
-});   
+   
