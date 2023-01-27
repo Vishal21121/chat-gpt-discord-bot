@@ -90,7 +90,7 @@ client.on("messageCreate",message=>{
 	if(message.attachments.size>0 && message.channelId!=process.env.channel_id)
 	{
 		message.attachments.forEach(element=>{
-			if(element.contentType=="image/png" || element.contentType=="image/jpg"){
+			if(element.contentType=="image/png" || element.contentType=="image/jpg" || element.contentType=="image/jpeg"){
 				val.push(element.attachment)
 				trigger = true
 			}
