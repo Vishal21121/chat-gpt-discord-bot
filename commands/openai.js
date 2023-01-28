@@ -33,6 +33,6 @@ module.exports = {
                     presence_penalty: 0,
                 });
                 await wait(4000)
-                await interaction.editReply(response.data.choices[0].text);
+                await interaction.editReply(`${data}:${response.data.choices[0].text}`);
     }    
 }
