@@ -8,6 +8,15 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+let messageArr = [{'role':'system','content':'You are a helpful assistant.'}]
+
+function addMessage(data,type){
+    if(type=='user'){
+        messageArr.push({'role':type,'content':data})
+    }else if(type=="assistant"){
+        messageArr.push({"role":type,"content":data})
+    }
+}
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,16 +33,15 @@ module.exports = {
         const data = interaction.options.getString("input")
         await interaction.deferReply();
         await interaction.editReply(`${data}`);
+        addMessage(data,'user')
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo-0301",
-            messages: [{ role: "user", content: data }],
-            temperature: 0,
+            messages: messageArr,
             max_tokens: 2000,
-            top_p: 1,
-            frequency_penalty: 0.5,
-            presence_penalty: 0,
         });
         // console.log(completion.data.choices[0].message.content);
         await interaction.followUp(`${completion.data.choices[0].message.content}`);
+        addMessage(completion.data.choices[0].message.content,"assistant")
+        // console.log(messageArr)
     }
 }
