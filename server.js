@@ -84,28 +84,5 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-client.on("messageCreate",message=>{
-	let val = [];
-	let trigger = false
-	if(message.attachments.size>0 && message.channelId!=process.env.channel_id)
-	{
-		message.attachments.forEach(element=>{
-			if(element.contentType=="image/png" || element.contentType=="image/jpg" || element.contentType=="image/jpeg"){
-				val.push(element.attachment)
-				trigger = true
-			}
-		})
-	}
-	
-	if(trigger && message.channelId!=process.env.channel_id && !message.author.bot){
-		message.delete()
-		const channel = client.channels.cache.get(process.env.channel_id);
-		val.forEach(element=>{
-			channel.send(element)
-		})
-	}
-})
-
-
 // Log in to Discord with your client's token
 client.login(token);
