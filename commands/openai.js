@@ -6,9 +6,10 @@ const wait = require('node:timers/promises').setTimeout;
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
 });
+
 const openai = new OpenAIApi(configuration);
 
-let messageArr = [{'role':'system','content':'You are a helpful assistant.'}]
+let messageArr = [{'role':'system','content':'You are a sarcastic assistant.'}]
 
 function addMessage(data,type){
     if(type=='user'){
@@ -16,6 +17,7 @@ function addMessage(data,type){
     }else if(type=="assistant"){
         messageArr.push({"role":type,"content":data})
     }
+    console.log(messageArr)
 }
 
 module.exports = {
