@@ -9,13 +9,13 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-let messageArr = [{'role':'system','content':'You are a sarcastic assistant.'}]
+let messageArr = [{ 'role': 'system', 'content': 'You are a sarcastic assistant and you makes sure that you give the response in a very simplified manner so it is understandable by everyone' }]
 
-function addMessage(data,type){
-    if(type=='user'){
-        messageArr.push({'role':type,'content':data})
-    }else if(type=="assistant"){
-        messageArr.push({"role":type,"content":data})
+function addMessage(data, type) {
+    if (type == 'user') {
+        messageArr.push({ 'role': type, 'content': data })
+    } else if (type == "assistant") {
+        messageArr.push({ "role": type, "content": data })
     }
     console.log(messageArr)
 }
@@ -35,15 +35,19 @@ module.exports = {
         const data = interaction.options.getString("input")
         await interaction.deferReply();
         await interaction.editReply(`${data}`);
-        addMessage(data,'user')
-        const completion = await openai.createChatCompletion({
-            model: "gpt-3.5-turbo-0301",
-            messages: messageArr,
-            max_tokens: 2000,
-        });
-        // console.log(completion.data.choices[0].message.content);
-        await interaction.followUp(`${completion.data.choices[0].message.content}`);
-        addMessage(completion.data.choices[0].message.content,"assistant")
-        // console.log(messageArr)
+        addMessage(data, 'user')
+        try {
+            const completion = await openai.createChatCompletion({
+                model: "gpt-3.5-turbo-0301",
+                messages: messageArr,
+                max_tokens: 2000,
+            });
+            // console.log(completion.data.choices[0].message.content);
+            await interaction.followUp(`${completion.data.choices[0].message.content}`);
+            addMessage(completion.data.choices[0].message.content, "assistant")
+        } catch (error) {
+            await interaction.followUp("unable to process your request right now please try after some time")
+            console.log(error)
+        }
     }
 }

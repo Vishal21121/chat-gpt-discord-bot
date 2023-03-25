@@ -64,10 +64,12 @@ client.on(Events.InteractionCreate, async interaction => {
 				interaction.deferReply()
 				let time = new Date()
 				let actualTime = `${time.getFullYear()}-${time.getMonth().toString().length<2?"0"+parseInt(time.getMonth()+1):time.getMonth()+1}-${time.getDate()}`
+				console.log("time",actualTime)
 				let response = await fetch(`https://api.github.com/search/commits?q=author:${githubVal}+committer-date:${actualTime}`,{
 					method:'GET'
 				})
 				let data = await response.json()
+				console.log(data.total_count)
 				await wait(4000)
 				const embed = new EmbedBuilder().setTitle(githubVal).setColor("DarkAqua") .addFields([
 					{
