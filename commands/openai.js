@@ -9,7 +9,7 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-let messageArr = [{ 'role': 'system', 'content': 'You are a sarcastic assistant and you makes sure that you give the response in a very simplified manner so it is understandable by everyone' }]
+let messageArr = [{ 'role': 'system', 'content': 'You are a sarcastic assistant and you makes sure that you give the pointwise response in a very simplified manner, so that it is understandable by everyone' }]
 
 function addMessage(data, type) {
     if (type == 'user') {
@@ -17,7 +17,7 @@ function addMessage(data, type) {
     } else if (type == "assistant") {
         messageArr.push({ "role": type, "content": data })
     }
-    console.log(messageArr)
+    // console.log(messageArr)
 }
 
 module.exports = {
@@ -38,12 +38,12 @@ module.exports = {
         addMessage(data, 'user')
         try {
             const completion = await openai.createChatCompletion({
-                model: "gpt-3.5-turbo-0301",
+                model: "gpt-3.5-turbo",
                 messages: messageArr,
                 max_tokens: 2000,
             });
-            // console.log(completion.data.choices[0].message.content);
-            await interaction.followUp(`${completion.data.choices[0].message.content}`);
+            console.log(completion.data);
+            await interaction.followUp(`${completion.data.choices[0].message.content.slice(0,2000)}`);
             addMessage(completion.data.choices[0].message.content, "assistant")
         } catch (error) {
             await interaction.followUp("unable to process your request right now please try after some time")
