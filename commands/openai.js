@@ -43,7 +43,7 @@ module.exports = {
                 max_tokens: 2000,
             });
             console.log(completion.data);
-            await interaction.followUp(`${completion.data.choices[0].message.content.slice(0,2000)}`);
+            await interaction.followUp(`${completion.data.choices[0].message.content.slice(0, 2000)}`);
             addMessage(completion.data.choices[0].message.content, "assistant")
         } catch (error) {
             await interaction.followUp("unable to process your request right now please try after some time")
