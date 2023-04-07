@@ -15,3 +15,22 @@ node deploy-commands.js
 ```
 npm start
 ```
+
+## Commands offered by this bot
+
+```
+/chat-gpt
+```
+```
+/generate-image
+```
+```
+/good-first-issue
+```
+```
+/my-commits
+```
+
+```
+/server
+```
