@@ -2,16 +2,26 @@ const { SlashCommandBuilder } = require('discord.js');
 const { Configuration, OpenAIApi } = require("openai");
 require("dotenv").config()
 const wait = require('node:timers/promises').setTimeout;
+const {encode, decode} = require('gpt-3-encoder')
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
 });
+
+let length = 0;
 
 const openai = new OpenAIApi(configuration);
 
 let messageArr = [{ 'role': 'system', 'content': 'You are a sarcastic assistant and you makes sure that you give the pointwise response in a very simplified manner, so that it is understandable by everyone' }]
 
 function addMessage(data, type) {
+    let encoded = encode(data);
+    console.log("length is:"+length);
+    if(length+encoded.length>=3900){
+        let val = messageArr[0]
+        messageArr.splice(0,messageArr.length / 2)
+        messageArr.unshift(val)
+    }
     if (type == 'user') {
         messageArr.push({ 'role': type, 'content': data })
     } else if (type == "assistant") {
@@ -40,9 +50,9 @@ module.exports = {
             const completion = await openai.createChatCompletion({
                 model: "gpt-3.5-turbo",
                 messages: messageArr,
-                max_tokens: 2000,
             });
             console.log(completion.data);
+            length = completion.data.usage.total_tokens;
             await interaction.followUp(`${completion.data.choices[0].message.content.slice(0, 2000)}`);
             addMessage(completion.data.choices[0].message.content, "assistant")
         } catch (error) {
