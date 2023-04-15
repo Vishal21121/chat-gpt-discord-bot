@@ -16,7 +16,7 @@ let messageArr = [{ 'role': 'system', 'content': 'You are a sarcastic assistant 
 
 function addMessage(data, type) {
     let encoded = encode(data);
-    console.log("length is:"+length);
+    // console.log("length is:"+length);
     if(length+encoded.length>=3900){
         let val = messageArr[0]
         messageArr.splice(0,messageArr.length / 2)
@@ -51,7 +51,7 @@ module.exports = {
                 model: "gpt-3.5-turbo",
                 messages: messageArr,
             });
-            console.log(completion.data);
+            // console.log(completion.data);
             length = completion.data.usage.total_tokens;
             await interaction.followUp(`${completion.data.choices[0].message.content.slice(0, 2000)}`);
             addMessage(completion.data.choices[0].message.content, "assistant")
