@@ -34,3 +34,6 @@ npm start
 ```
 /server
 ```
+
+## License
+[MIT License](LICENSE)
