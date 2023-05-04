@@ -41,3 +41,7 @@ To use any of these commands, simply type them in a text channel where the bot i
 
 ## License
 This project is licensed under the [MIT License](LICENSE). See the LICENSE file for more information.
+
+## Support 🙏
+
+Hey, if you find my GitHub repository **chat-gpt-discord-bot** helpful, could you consider leaving a star ⭐ for it? It would mean a lot to me and help others discover the project. Thanks in advance!
